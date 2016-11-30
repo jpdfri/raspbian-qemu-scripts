@@ -2,9 +2,12 @@
 
 NETWORK="-net nic -net user"
 
-#RASPBIAN_BUILD=2015-11-21-raspbian-jessie
-RASPBIAN_BUILD=2016-05-27-raspbian-jessie-lite
-RASPBIAN_IMAGE=${RASPBIAN_BUILD}.img
+RASPBIAN_IMAGE=$1
+
+if [ -z ${RASPBIAN_IMAGE} ]; then
+	echo "Please provide the QEMU-modified images as an argument."
+	exit 1
+fi
 
 TMPDIR=/tmp/raspbian
 

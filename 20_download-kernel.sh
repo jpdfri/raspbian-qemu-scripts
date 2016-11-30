@@ -9,7 +9,7 @@ RASPBIAN_BUILD=2016-05-27-raspbian-jessie-lite
 RASPBIAN_ZIP=${RASPBIAN_BUILD}.zip
 RASPBIAN_IMAGE=${RASPBIAN_BUILD}.img
 
-QEMU_KERNEL_VERSION=4.4.12-jessie
+QEMU_KERNEL_VERSION=4.4.13-jessie
 QEMU_KERNEL_FILE="kernel-qemu-${QEMU_KERNEL_VERSION}"
 
 # RASPBIAN_URL=https://downloads.raspberrypi.org/raspbian/images/raspbian-2015-11-24/${RASPBIAN_ZIP}
@@ -17,7 +17,7 @@ RASPBIAN_URL="http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lit
 
 # Hrm, not sure the best place to obtain this:
 QEMU_KERNEL_URL="https://github.com/dhruvvyas90/qemu-rpi-kernel/raw/master/${QEMU_KERNEL_FILE}"
-QEMU_KERNEL_URL="https://github.com/dhruvvyas90/qemu-rpi-kernel/raw/master/kernel-qemu-4.4.12-jessie"
+#QEMU_KERNEL_URL="https://github.com/dhruvvyas90/qemu-rpi-kernel/raw/master/kernel-qemu-4.4.12-jessie"
 
 TMPDIR=/tmp/raspbian
 
@@ -64,9 +64,9 @@ else
 fi
 }
 
-echo '[Download Raspbian]'
-download_raspbian
+#echo '[Download Raspbian]'
+#download_raspbian
 echo '[Download QEMU Kernel]'
 download_qemu_kernel
-echo '[Extract Raspbian]'
-extract_raspbian
+#echo '[Extract Raspbian]'
+#extract_raspbian
