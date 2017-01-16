@@ -28,7 +28,7 @@ fi
 check_tool "qemu-img"
 check_tool "kpartx"
 
-TEMP_DIR="$(mktemp -d ${SCRIPT_NAME}.XXXXXXXX)"
+TEMP_DIR="$(mktemp -d $(pwd)/${SCRIPT_NAME}.XXXXXXXX)"
 
 qemu-img resize "$DISK_IMAGE" 486M
 
@@ -55,7 +55,7 @@ packages=whiptail,pppoeconf,git
 bootsize=+64M
 EOF
 
-cat << EOF > "$TEMP_DIR/disk-image/boot/post-install.txt"
+cat << EOF >> "$TEMP_DIR/disk-image/boot/post-install.txt"
 sed -i 's|/dev/sda2|/dev/mmcblk0p2|' "/rootfs/boot/cmdline.txt"
 sed -i 's|/dev/sda1|/dev/mmcblk0p1|' "/rootfs/etc/fstab"
 sed -i 's|/dev/sda2|/dev/mmcblk0p2|' "/rootfs/etc/fstab"
