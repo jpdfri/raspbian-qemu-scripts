@@ -3,6 +3,7 @@
 # Original work by Github user dhanar10, updated by Github user diederikdehaas et.al.
 # https://github.com/debian-pi/raspbian-ua-netinst/issues/34#issuecomment-58807067
 
+# Function definitions
 check_tool()
 {
 	if [ -z "$(which "$1")" ]; then
@@ -11,28 +12,46 @@ check_tool()
 	fi	
 }
 
-SCRIPT_NAME="$(basename "$0")"
-
-DISK_IMAGE="$1"
-
-if [ -z "$DISK_IMAGE" ]; then
-	echo "Usage: $SCRIPT_NAME DISK_IMAGE"
+if [ "$(id -u)" != 0 ]; then
+	echo "Must be run as root. Aborting"
 	exit 1
 fi
 
-if [ "$(id -u)" != 0 ]; then
-	sudo "$0" "$@"
-	exit "$?"
+SCRIPT_NAME="$(basename "$0")"
+
+if [ "$#" -eq 0 ]; then
+	echo "Usage: $SCRIPT_NAME [RASPBIAN_NETINST_FOLDER_NAME] DISK_IMAGE"
+	exit 1
 fi
+
+# Check for the cloned raspbian-ua-netinst repo
+if [ -z "$2" ]; then
+	echo "Assuming \"raspbian-ua-netinst\" as the target directory to build the Raspbian netinstaller image."
+	RUI_FOLDER="raspbian-ua-netinst"
+	DISK_IMAGE="$1"
+else
+	echo "Using "$1" as the target directory to build the Raspbian netinstaller image."
+	RUI_FOLDER="$1"
+	DISK_IMAGE="$2"
+fi
+
+RUI_PATH=$(find / -name "${RUI_FOLDER}" 2>/dev/null)
+
+if [ -z "${RUI_PATH}" ]; then
+	echo "No ${RUI_FOLDER} folder found. Please clone raspbian-ua-netinst from Github or provide the relevant folder name as an argument. Aborting."
+	exit 1
+fi
+
+cd ${RUI_PATH}
 
 check_tool "qemu-img"
 check_tool "kpartx"
 
 TEMP_DIR="$(mktemp -d $(pwd)/${SCRIPT_NAME}.XXXXXXXX)"
 
-qemu-img resize "$DISK_IMAGE" 486M
+qemu-img resize ${DISK_IMAGE} 486M
 
-LOOP_DEVICE_NAME="$(kpartx -avs "$DISK_IMAGE" | grep -o 'loop[0-9]' | head -n 1)"
+LOOP_DEVICE_NAME="$(kpartx -avs "${DISK_IMAGE}" | grep -o 'loop[0-9]' | head -n 1)"
 
 mkdir -p "$TEMP_DIR/installer"
 mkdir -p "$TEMP_DIR/disk-image/boot"

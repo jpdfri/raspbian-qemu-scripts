@@ -2,18 +2,18 @@
 
 
 # Note URL has different date in directory to build
-#RASPBIAN_BUILD=2015-11-21-raspbian-jessie
 RASPBIAN_BUILD=2016-05-27-raspbian-jessie-lite
 
 
 RASPBIAN_ZIP=${RASPBIAN_BUILD}.zip
+RASPBIAN_SHA1=${RASPBIAN_ZIP}.sha1
 RASPBIAN_IMAGE=${RASPBIAN_BUILD}.img
 
 QEMU_KERNEL_VERSION=4.4.13-jessie
 QEMU_KERNEL_FILE="kernel-qemu-${QEMU_KERNEL_VERSION}"
 
-# RASPBIAN_URL=https://downloads.raspberrypi.org/raspbian/images/raspbian-2015-11-24/${RASPBIAN_ZIP}
-RASPBIAN_URL="http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2016-05-31/${RASPBIAN_ZIP}"
+RASPBIAN_URL="http://downloads.raspberrypi.org/raspbian_lite/images/${RASPBIAN_BUILD}/${RASPBIAN_ZIP}"
+RASPBIAN_SHA_URL="http://downloads.raspberrypi.org/raspbian_lite/images/${RASPBIAN_BUILD}/${RASPBIAN_SHA1}"
 
 # Hrm, not sure the best place to obtain this:
 QEMU_KERNEL_URL="https://github.com/dhruvvyas90/qemu-rpi-kernel/raw/master/${QEMU_KERNEL_FILE}"
@@ -26,6 +26,11 @@ mkdir -p ${TMPDIR}
 function download_raspbian {
    # get image [resumable download]
    wget -q --show-progress -c "${RASPBIAN_URL}" -P ${TMPDIR}
+}
+
+function download_raspbian_sha {
+   # get image [resumable download]
+   wget -q --show-progress -c "${RASPBIAN_SHA_URL}" -P ${TMPDIR}
 }
 
 function download_qemu_kernel {

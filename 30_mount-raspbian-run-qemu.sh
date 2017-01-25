@@ -24,4 +24,4 @@ echo sudo umount ${LOOP_DEV}p2 && sudo losetup -D ${LOOP_DEV}
 
 NETWORK="-net nic -net user"
 
-qemu-system-arm -kernel ${TMPDIR}/kernel-qemu -cpu arm1176 -m 256 -M versatilepb -no-reboot -serial stdio -usbdevice tablet -display sdl -append "root=/dev/sda2 panic=2 rootfstype=ext4 rw init=bin/bash" -drive format=raw,file=${TMPDIR}/${RASPBIAN_IMAGE} ${NETWORK}
+qemu-system-arm -kernel ${TMPDIR}/kernel-qemu -cpu arm1176 -m 256 -M versatilepb -no-reboot -serial stdio -usbdevice tablet -display sdl -append "root=/dev/sda2 panic=2 rootfstype=ext4 rw init=/bin/bash" -drive format=raw,file=${TMPDIR}/${RASPBIAN_IMAGE} ${NETWORK}
