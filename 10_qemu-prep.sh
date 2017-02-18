@@ -24,6 +24,9 @@ if [ "$#" -eq 0 ]; then
 	exit 1
 fi
 
+# Path to rpitor folder
+RPI_TOR=$(find / -name "rpitor" 2>/dev/null)
+
 # Check for the cloned raspbian-ua-netinst repo
 if [ -z "$2" ]; then
 	echo "Assuming \"raspbian-ua-netinst\" as the target directory to build the Raspbian netinstaller image."
@@ -81,7 +84,7 @@ sed -i 's|/dev/sda2|/dev/mmcblk0p2|' "/rootfs/etc/fstab"
 echo "gpu_mem=16" >> "/rootfs/boot/config.txt"
 EOF
 
-#cat ../rpitor/scripts/setup-image/post-install.txt >> "$TEMP_DIR/disk-image/boot/post-install.txt"
+cat ${RPI_TOR}/scripts/setup-image/post-install.txt >> "$TEMP_DIR/disk-image/boot/post-install.txt"
 
 sync
 
